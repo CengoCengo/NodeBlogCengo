@@ -76,7 +76,7 @@ body {
   position: fixed;
   top: 0;
   right: 0;
-  width: 30%;
+  width: 50%;
   background: #fff;
   height: 100%;
   transform: skewX(0deg) translate(100%, 0);
@@ -84,6 +84,7 @@ body {
   transition: all .2s ease-in;
   z-index: +1;
 }
+
 
 
 
@@ -213,6 +214,8 @@ float: left;
   font-family: Roboto;
   color: white;
 }
+
+
 
 
 .btn1 {

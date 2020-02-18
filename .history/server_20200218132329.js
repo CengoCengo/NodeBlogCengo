@@ -13,6 +13,8 @@ const indexRoutes = require("./routes/indexRoutes");
 //AppConfig
 app.use(express.static("public"))
 
+
+
 app.listen(3001, function(){
 
 console.log("Server started on port 3000")
@@ -22,6 +24,8 @@ console.log("Server started on port 3000")
 //RoutesUsing
 
 app.use(indexRoutes);
+
+
 
 const mongoose = require('mongoose');
 

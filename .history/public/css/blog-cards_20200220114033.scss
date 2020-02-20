@@ -1,0 +1,131 @@
+/* Variables */
+@import url('https://fonts.googleapis.com/css?family=Montserrat:400,600,700');
+
+$primary-color: #479DC8;
+$white: #fff;
+$black: #000;
+$primary-font:'Montserrat', sans-serif;
+
+body{
+  font-family: $primary-font;
+}
+
+.video-block {
+  background-image: linear-gradient(to top, #1e3c72 0%, #1e3c72 1%, #2a5298 100%);
+  color: $white;
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.video-tab-title {
+  color: $white;
+  font-size: 18px;
+  text-transform: uppercase;
+  margin: 0 0 30px 15px;
+}
+
+.video-tab {
+  .post-overlay-wrapper {
+    min-height: 430px;
+    .post-content {
+      padding: 35px;
+    }
+  }
+  .post-title {
+    font-size: 24px;
+    line-height: 30px;
+    font-weight: normal;
+  }
+  .nav-tabs{
+    border-bottom: none;
+    margin-left: 30px;
+    height: 376px;
+    overflow-y: auto;
+    &::-webkit-scrollbar
+    {
+      width: 8px;
+      background-color: $white;
+      border-radius: 10px;
+    }
+    &::-webkit-scrollbar-thumb
+    {
+      border-radius: 10px;
+      background-color: $primary-color;
+    }
+  }
+  .nav-tabs{
+    li{
+      width: 100%;
+      display: block;
+      min-height: 100px;
+      a {
+        background: none;
+        border: 0;
+        padding: 0;
+        border: 0;
+        .post-thumbnail {
+          img {
+            max-width: 100px;
+          }
+          float: left;
+          margin-right: 20px;
+          position: relative;
+          overflow: hidden;
+        }
+        h3 {
+          color: $white;
+          font-weight: normal;
+          line-height: 28px;
+          font-size: 16px;
+          margin: 0;
+        }
+      }
+    }
+  }
+}
+
+.play-icon {
+  position: relative;
+  display: block;
+  width: 100%;
+  height: 100%;
+  border-radius: 6px;
+  &:hover{
+    cursor: none;
+  }
+  .play-button{
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 3;
+    transition: all .1s ease;
+  }
+  &:before{
+    position: absolute;
+    content: '';
+    width: 100%;
+    height: 100%;
+    transition: all .3s ease; 
+    background: rgba($color: $black, $alpha: .4);
+    z-index: 2;
+  }
+}
+.video-tab{
+  iframe{
+    width: 100%;
+    min-height: 369px;
+    border: none;
+    background: $black;
+    padding: 10px;
+    border-radius: 6px;
+  }
+}
+
+// Bootstrap Overrides
+.nav-tabs>li.active>a, .nav-tabs>li.active>a:focus, .nav-tabs>li.active>a:hover{
+  background: transparent;
+  border: none;
+}

@@ -7,7 +7,7 @@ app.use(bodyParser.urlencoded({extended:true}));
 //AppRoutes
 
 const indexRoutes = require("./routes/indexRoutes");
-const adminRoutes = require("./routes/adminRoutes");
+const indexRoutes = require("./routes/adminRoutes");
 
 
 //AppConfig
@@ -22,7 +22,6 @@ console.log("Server started on port 3000")
 //RoutesUsing
 
 app.use(indexRoutes);
-app.use(adminRoutes)
 
 const mongoose = require('mongoose');
 

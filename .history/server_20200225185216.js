@@ -1,14 +1,14 @@
 //jshint esversion:6
+
 const express = require("express");
 const bodyParser = require("body-parser");
+
 const app = express();
 app.use(bodyParser.urlencoded({extended:true}));
 
 //AppRoutes
 
 const indexRoutes = require("./routes/indexRoutes");
-const adminRoutes = require("./routes/adminRoutes");
-
 
 //AppConfig
 app.use(express.static("public"))
@@ -22,7 +22,6 @@ console.log("Server started on port 3000")
 //RoutesUsing
 
 app.use(indexRoutes);
-app.use(adminRoutes)
 
 const mongoose = require('mongoose');
 

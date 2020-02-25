@@ -22,7 +22,6 @@ console.log("Server started on port 3000")
 //RoutesUsing
 
 app.use(indexRoutes);
-app.use(adminRoutes)
 
 const mongoose = require('mongoose');
 

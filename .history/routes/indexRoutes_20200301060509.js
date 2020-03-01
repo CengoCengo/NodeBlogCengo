@@ -13,7 +13,7 @@ router.get("/video", (req,res)=>{
 router.get("/blog/showBlog", (req,res)=>{
    
    
-   res.render("blog/showBlog.ejs")
+   res.render("showBlog.ejs")
    
    
     // Blog.find({},(err,foundBlogs)=>{

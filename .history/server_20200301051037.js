@@ -4,7 +4,7 @@ const passport = require('passport');
 const LocalStrategy = require("passport-local");
 const expressseSession = require("express-session");
 const User = require("./models/userModel");
-const Blog = require('./models/blogModel');
+const Blog = require('../models/blogModel'),
 const bodyParser = require("body-parser");
 const app = express();
 

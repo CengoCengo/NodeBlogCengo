@@ -70,19 +70,6 @@ router.get("/testing", (req,res) => {
     });
 });
 
-router.get('./blogs/:blogId',(req,res)=>{
-    Blog.findById(req.params.blogId).then((foundBlog)=>{
-
-        res.render("./blog/showBlog", {foundBlog:foundBlog});
-
-    })
-    .catch((err)=>{
-        console.log("Errorrrrrr");
-        console.log(err);
-        res.send(err);
-    })
-})
-
 router.get("/signin", (req,res)=>{
     res.render("./admin/signin.ejs")
 });

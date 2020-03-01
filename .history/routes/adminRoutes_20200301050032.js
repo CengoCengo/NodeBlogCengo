@@ -70,10 +70,10 @@ router.get("/testing", (req,res) => {
     });
 });
 
-router.get('./blogs/:blogId',(req,res)=>{
+router.get('/blogs/:blogId',(req,res)=>{
     Blog.findById(req.params.blogId).then((foundBlog)=>{
 
-        res.render("./blog/showBlog", {foundBlog:foundBlog});
+        res.render("blog/showBlog", {foundBlog:foundBlog});
 
     })
     .catch((err)=>{

@@ -10,10 +10,10 @@ router.get("/video", (req,res)=>{
     res.render("video.ejs")
 });
 
-router.get("/blog/showBlog", (req,res)=>{
+router.get("./blog/showBlog", (req,res)=>{
    
    
-   res.render("blog/showBlog.ejs")
+   res.render("./blog/showBlog.ejs")
    
    
     // Blog.find({},(err,foundBlogs)=>{

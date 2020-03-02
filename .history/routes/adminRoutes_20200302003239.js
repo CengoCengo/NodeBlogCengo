@@ -2,7 +2,7 @@ const express = require('express'),
 Blog = require('../models/blogModel'),
 passport = require("passport"),
 router = express.Router(),
-User= require('../models/userModel');
+user= require('../models/userModel');
 
 
 

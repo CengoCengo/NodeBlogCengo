@@ -2,7 +2,6 @@ const express = require('express');
 const router = express.Router();
 const Blog = require('../models/blogModel');
 
-
 router.get("/", (req,res)=>{
     res.render("main.ejs")
 });
@@ -24,7 +23,7 @@ router.get("/blog/showBlog", (req,res)=>{
         }else{
             console.log("Bütün girdiler");
             console.log(foundBlogs);
-            res.render("blog/showBlog.ejs", {foundBlogs:foundBlogs});
+            res.render("/blog/showBlog.ejs", {foundBlogs:foundBlogs});
         }
 
     })

@@ -1,13 +1,12 @@
 const express = require('express'),
 Blog = require('../models/blogModel'),
-passport = require("passport"),
-router = express.Router(),
-User= require('../models/userModel');
+passport = require("passport")
+      router = express.Router();
 
 
 
 router.get("/admin", (req,res)=>{
-    res.render("./admin/admin.ejs")
+    res.render("./admin/admin.ejs", { adminActions: adminActions})
 });
 
 router.post("/admin", (req,res)=>{

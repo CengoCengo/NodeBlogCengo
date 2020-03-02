@@ -2,7 +2,6 @@ const express = require('express');
 const router = express.Router();
 const Blog = require('../models/blogModel');
 
-
 router.get("/", (req,res)=>{
     res.render("main.ejs")
 });

@@ -6,11 +6,11 @@ User= require('../models/userModel');
 
 
 
-router.get("/admin", isLoggedIn, (req,res)=>{
+router.get("/admin", (req,res)=>{
     res.render("./admin/admin.ejs")
 });
 
-router.post("/admin", isLoggedIn, (req,res)=>{
+router.post("/admin", (req,res)=>{
     console.log(req.body.data);
     const title = req.body.data.blogTitle;
     const comSentence = req.body.data.comSentence;
@@ -41,10 +41,10 @@ router.get("/testing", (req,res) => {
     });
 });
 
-router.get('/blog/:blogId',(req,res)=>{
-    Blog.findById(req.params.blogId).then((foundBlogs)=>{
+router.get('/blogs/:blogId',(req,res)=>{
+    Blog.findById(req.params.blogId).then((foundBlog)=>{
 
-        res.render("./blog/singleBlog.ejs", {foundBlogs:foundBlogs});
+        res.render("/blog/singleBlog", {foundBlog:foundBlog});
 
     })
     .catch((err)=>{
@@ -79,11 +79,11 @@ router.post("/signin", (req,res)=>{
 
 });
 
-router.get("/signup", isLoggedIn, (req,res)=>{
+router.get("/signup", (req,res)=>{
     res.render("./admin/signup.ejs")
 });
 
-router.post("/signup", isLoggedIn, (req,res)=>{
+router.post("/signup", (req,res)=>{
  User.register({username: req.body.username}, req.body.password, function(err,user){
      if(err){
          console.log(err);
@@ -98,12 +98,7 @@ router.post("/signup", isLoggedIn, (req,res)=>{
 });
 
 
-function isLoggedIn(req, res, next){
-    if(req.isAuthenticated()){
-        return next();
-    }
-    res.redirect("/signin");
-}
+
 
 
 module.exports=router;

@@ -6,7 +6,7 @@ User= require('../models/userModel');
 
 
 
-router.get("/admin", isLoggedIn, (req,res)=>{
+router.get("/admin", (req,res)=>{
     res.render("./admin/admin.ejs")
 });
 

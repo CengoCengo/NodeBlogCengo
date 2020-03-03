@@ -6,11 +6,11 @@ User= require('../models/userModel');
 
 
 
-router.get("/admin", isLoggedIn, (req,res)=>{
+router.get("/admin", (req,res)=>{
     res.render("./admin/admin.ejs")
 });
 
-router.post("/admin", isLoggedIn, (req,res)=>{
+router.post("/admin", (req,res)=>{
     console.log(req.body.data);
     const title = req.body.data.blogTitle;
     const comSentence = req.body.data.comSentence;
@@ -79,11 +79,11 @@ router.post("/signin", (req,res)=>{
 
 });
 
-router.get("/signup", isLoggedIn, (req,res)=>{
+router.get("/signup", (req,res)=>{
     res.render("./admin/signup.ejs")
 });
 
-router.post("/signup", isLoggedIn, (req,res)=>{
+router.post("/signup", (req,res)=>{
  User.register({username: req.body.username}, req.body.password, function(err,user){
      if(err){
          console.log(err);

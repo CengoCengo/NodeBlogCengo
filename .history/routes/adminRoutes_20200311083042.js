@@ -46,7 +46,29 @@ router.get("/blog/blogList", isLoggedIn, (req,res)=> {
 
 })
 
+router.delete("/delete/:blogId", function(req,res) {
+    var id = req.params.blogId;
+    Blog.findByIdAndRemove({_id: id}, function(err){
+        if(err) {
+            console.log(err);
+            res.redirect("/blog/bloglist")
+        } else {
+            res.redirect("/blog/bloglist")
+        }
 
+    })
+})
+
+
+router.get("/testing", (req,res) => {
+    Blog.find().then((foundBlogs)=> {
+        res.json(foundBlogs);
+    })
+    .catch((err)=>{
+        console.log(err);
+        res.send(err);
+    });
+});
 
 router.get('/blog/:blogId',(req,res)=>{
     Blog.findById(req.params.blogId).then((foundBlogs)=>{
@@ -59,26 +81,6 @@ router.get('/blog/:blogId',(req,res)=>{
         console.log(err);
         res.send(err);
     })
-})
-
-//delete
-
-router.delete('/blog/:blogId',  isLoggedIn, async (req,res) =>{
-    let deletedBlog
-    try {
-        deletedBlog = await Blog.findById(req.params.blogId)
-        await deletedBlog.remove()
-        res.redirect("/blog/blogList")
-    } catch {
-
-        if(deletedBlog == null) {
-            res.redirect('/admin')
-        } else {
-            res.redirect('/blog/:blogId')
-        }
-        
-    } 
-
 })
 
 router.get("/signin", (req,res)=>{

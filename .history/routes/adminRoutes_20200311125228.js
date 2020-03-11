@@ -61,26 +61,6 @@ router.get('/blog/:blogId',(req,res)=>{
     })
 })
 
-//delete
-
-router.delete('/blog/:blogId',  isLoggedIn, async (req,res) =>{
-    let deletedBlog
-    try {
-        deletedBlog = await Blog.findById(req.params.blogId)
-        await deletedBlog.remove()
-        res.redirect("/blog/blogList")
-    } catch {
-
-        if(deletedBlog == null) {
-            res.redirect('/admin')
-        } else {
-            res.redirect('/blog/:blogId')
-        }
-        
-    } 
-
-})
-
 router.get("/signin", (req,res)=>{
     res.render("./admin/signin.ejs")
 });

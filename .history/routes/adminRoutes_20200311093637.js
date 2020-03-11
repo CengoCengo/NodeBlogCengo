@@ -46,7 +46,30 @@ router.get("/blog/blogList", isLoggedIn, (req,res)=> {
 
 })
 
+router.delete('/blog/:blogId',(req,res)=>{
+    Blog.findByIdAndRemove(req.params.blogId).then((foundBlogs)=>{
 
+        res.render("./blog/blogList.ejs", {foundBlogs:foundBlogs});
+
+    })
+    .catch((err)=>{
+        console.log("Errorrrrrr");
+        console.log(err);
+        res.send(err);
+    })
+})
+
+
+
+router.get("/testing", (req,res) => {
+    Blog.find().then((foundBlogs)=> {
+        res.json(foundBlogs);
+    })
+    .catch((err)=>{
+        console.log(err);
+        res.send(err);
+    });
+});
 
 router.get('/blog/:blogId',(req,res)=>{
     Blog.findById(req.params.blogId).then((foundBlogs)=>{
@@ -59,26 +82,6 @@ router.get('/blog/:blogId',(req,res)=>{
         console.log(err);
         res.send(err);
     })
-})
-
-//delete
-
-router.delete('/blog/:blogId',  isLoggedIn, async (req,res) =>{
-    let deletedBlog
-    try {
-        deletedBlog = await Blog.findById(req.params.blogId)
-        await deletedBlog.remove()
-        res.redirect("/blog/blogList")
-    } catch {
-
-        if(deletedBlog == null) {
-            res.redirect('/admin')
-        } else {
-            res.redirect('/blog/:blogId')
-        }
-        
-    } 
-
 })
 
 router.get("/signin", (req,res)=>{

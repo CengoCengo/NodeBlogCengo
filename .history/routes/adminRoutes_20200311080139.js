@@ -46,18 +46,6 @@ router.get("/blog/blogList", isLoggedIn, (req,res)=> {
 
 })
 
-// router.delete("/delete/:blogId", function(req,res) {
-//     var id = req.params.blogId;
-//     Blog.findByIdAndRemove({_id: id}, function(err){
-//         if(err) {
-//             console.log(err);
-//             res.redirect("/blog/bloglist")
-//         } else {
-//             res.redirect("/blog/bloglist")
-//         }
-
-//     })
-// })
 
 
 router.get("/testing", (req,res) => {

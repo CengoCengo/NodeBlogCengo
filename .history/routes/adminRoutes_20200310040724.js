@@ -4,6 +4,8 @@ passport = require("passport"),
 router = express.Router(),
 User= require('../models/userModel');
 
+
+
 router.get("/admin", isLoggedIn, (req,res)=>{
     res.render("./admin/admin.ejs")
 });
@@ -30,35 +32,19 @@ router.post("/admin", isLoggedIn, (req,res)=>{
 });
 
 router.get("/blog/blogList", isLoggedIn, (req,res)=> {
-    
-    Blog.find({},(err,foundBlogs)=>{
-        
+  
+   Blog.find({},(err,foundBlogs)=>{
         if(err){
             console.log("Hata var koç!")
             console.log(err);
         }else{
             console.log("Bütün girdiler");
             console.log(foundBlogs);
-            res.render("blog/blogList.ejs", {foundBlogs:foundBlogs});
+            res.render("./blog/blogList.ejs", {foundBlogs:foundBlogs});
         }
 
-    })
 
 })
-
-// router.delete("/delete/:blogId", function(req,res) {
-//     var id = req.params.blogId;
-//     Blog.findByIdAndRemove({_id: id}, function(err){
-//         if(err) {
-//             console.log(err);
-//             res.redirect("/blog/bloglist")
-//         } else {
-//             res.redirect("/blog/bloglist")
-//         }
-
-//     })
-// })
-
 
 router.get("/testing", (req,res) => {
     Blog.find().then((foundBlogs)=> {

@@ -59,7 +59,6 @@ router.get("/blog/blogList", isLoggedIn, (req,res)=> {
 //     })
 // })
 
-
 router.get("/testing", (req,res) => {
     Blog.find().then((foundBlogs)=> {
         res.json(foundBlogs);

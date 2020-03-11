@@ -4,6 +4,8 @@ passport = require("passport"),
 router = express.Router(),
 User= require('../models/userModel');
 
+
+
 router.get("/admin", isLoggedIn, (req,res)=>{
     res.render("./admin/admin.ejs")
 });
@@ -46,19 +48,18 @@ router.get("/blog/blogList", isLoggedIn, (req,res)=> {
 
 })
 
-// router.delete("/delete/:blogId", function(req,res) {
-//     var id = req.params.blogId;
-//     Blog.findByIdAndRemove({_id: id}, function(err){
-//         if(err) {
-//             console.log(err);
-//             res.redirect("/blog/bloglist")
-//         } else {
-//             res.redirect("/blog/bloglist")
-//         }
+router.delete("/delete/:blogId", function(req,res) {
+    var id = req.params.blogId;
+    Blog.findByIdAndRemove({_id: id}, function(err){
+        if(err) {
+            console.log(err);
+            res.redirect("/blog/bloglist")
+        } else {
+            
+        }
 
-//     })
-// })
-
+    })
+})
 
 router.get("/testing", (req,res) => {
     Blog.find().then((foundBlogs)=> {

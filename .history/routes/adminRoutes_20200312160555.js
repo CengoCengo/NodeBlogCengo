@@ -4,8 +4,6 @@ passport = require("passport"),
 router = express.Router(),
 User= require('../models/userModel');
 
-
-//adminRoute
 router.get("/admin", isLoggedIn, (req,res)=>{
     res.render("./admin/admin.ejs")
 });
@@ -31,7 +29,6 @@ router.post("/admin", isLoggedIn, (req,res)=>{
     });
 });
 
-//admin blogs list 
 router.get("/blog/blogList", isLoggedIn, (req,res)=> {
     
     Blog.find({},(err,foundBlogs)=>{
@@ -98,15 +95,12 @@ router.get('/blog/:blogId', async (req, res) => {
 })
   })
   
-router.put('/blog/:blogId', async (req, res) => {
-    let blog
+  router.put('/:id', async (req, res) => {
+    let author
     try {
-      blog = await Author.findById(req.params.id)
-      blog.blogTitle = req.body.data.blogTitle
-      blog.comSentence=req.body.data.comSentence
-      blog.blog=req.body.data.blog
-
-      await blog.save()
+      author = await Author.findById(req.params.id)
+      author.name = req.body.name
+      await author.save()
       res.redirect(`/authors/${author.id}`)
     } catch {
       if (author == null) {
@@ -119,8 +113,6 @@ router.put('/blog/:blogId', async (req, res) => {
       }
     }
   })
-
-  //signin and signup
 
 router.get("/signin", (req,res)=>{
     res.render("./admin/signin.ejs")
@@ -165,8 +157,6 @@ router.post("/signup", isLoggedIn, (req,res)=>{
 
 });
 
-
-//isLoggedIn
 
 function isLoggedIn(req, res, next){
     if(req.isAuthenticated()){

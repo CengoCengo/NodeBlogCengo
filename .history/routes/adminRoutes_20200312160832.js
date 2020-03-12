@@ -98,15 +98,12 @@ router.get('/blog/:blogId', async (req, res) => {
 })
   })
   
-router.put('/blog/:blogId', async (req, res) => {
-    let blog
+router.put('/blog/', async (req, res) => {
+    let author
     try {
-      blog = await Author.findById(req.params.id)
-      blog.blogTitle = req.body.data.blogTitle
-      blog.comSentence=req.body.data.comSentence
-      blog.blog=req.body.data.blog
-
-      await blog.save()
+      author = await Author.findById(req.params.id)
+      author.name = req.body.name
+      await author.save()
       res.redirect(`/authors/${author.id}`)
     } catch {
       if (author == null) {

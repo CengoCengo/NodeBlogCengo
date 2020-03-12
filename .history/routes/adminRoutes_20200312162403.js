@@ -103,8 +103,7 @@ router.put('/blog/:blogId', async (req, res) => {
     try {
       blog = await Author.findById(req.params.id)
       blog.blogTitle = req.body.data.blogTitle
-      blog.comSentence=req.body.data.comSentence
-      blog.blog=req.body.data.blog
+      blog.comSentence=req.body
 
       await blog.save()
       res.redirect(`/authors/${author.id}`)

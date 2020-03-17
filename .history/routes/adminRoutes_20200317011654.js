@@ -98,55 +98,30 @@ router.get('/edit/:blogId', (req, res) => {
 })
   })
   
-router.post('/edit/:blogId', (req, res) => {
+router.put('/edit/:blogId', (req, res) => {
+    let blog
+    try {
+      blog =  Blog.findById(req.params.id).then((foundBlogs)=>{
+        foundBlogs.blog.blogTitle = req.body.data.blogTitle
+        foundBlogs.blog.comSentence=req.body.data.comSentence
+        foundBlogs.blog.blog=req.body.data.blog
 
-    Blog.findByIdAndUpdate((req.params.blogId), function(err,foundObject){
-        if(err){
-            console.log(err);
-            res.status(500).send();
-        }else{
-            if(!foundObject){
-                res.status(404).send();
-            }else{
-                if(req.body.data.title){
-                    foundObject.title = req.body.data.blogTitle
-                }
+      })
+ 
 
-                if(req.body.data.comSentence){
-                    foundObject.comSentence = req.body.data.comSentence
-
-                }
-                if(req.body.data.comImage){
-                    foundObject.comImage = req.body.data.comImage
-
-                }
-
-                if(req.body.data.blog){
-                    foundObject.blog = req.body.data.blog
-
-                }
-
-                foundObject.save(function(err, updatedObject){
-                    if(err){
-                        console.log(err);
-                        res.status(500).send();
-                    }else {
-                        res.send(updatedObject)
-                    }
-
-                })
-            }
-
-        }
-
-    })
-
-   
-
-    })
-        
-      
-   
+      blog.save()
+      res.redirect(`/edit/:blogId`)
+    } catch {
+      if (blog == null) {
+        res.redirect('/blog/bloglist')
+      } else {
+        res.render('blog/editBlog.ejs', {
+          blog: blog,
+          errorMessage: 'Error updating Author'
+        })
+      }
+    }
+  })
 
   //signin and signup
 

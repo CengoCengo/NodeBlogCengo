@@ -98,9 +98,11 @@ router.get('/edit/:blogId', (req, res) => {
 })
   })
   
-router.post('/edit/:blogId', (req, res) => {
+router.PUT('/edit/:blogId', (req, res) => {
+   
+    var id = req.params.blogId
 
-    Blog.findByIdAndUpdate((req.params.blogId), function(err,foundObject){
+    Blog.findOne({_id:id}, function(err,foundObject){
         if(err){
             console.log(err);
             res.status(500).send();

@@ -99,54 +99,36 @@ router.get('/edit/:blogId', (req, res) => {
   })
   
 router.post('/edit/:blogId', (req, res) => {
+    let updatedBlog
+    try{
 
-    Blog.findByIdAndUpdate((req.params.blogId), function(err,foundObject){
-        if(err){
-            console.log(err);
-            res.status(500).send();
-        }else{
-            if(!foundObject){
-                res.status(404).send();
-            }else{
-                if(req.body.data.title){
-                    foundObject.title = req.body.data.blogTitle
-                }
+        updatedBlog = Blog.update(req.params.blogId).then((updatedBlog)=>{
+            updatedBlog.title = req.body.data.blogTitle;
+            updatedBlog.comSentence = req.body.data.comSentence;
+            updatedBlog.comImage = req.body.data.comImage;
+            updatedBlog.blog = req.body.data.blog;
+    
+            
+    
+            res.redirect("/edit/:blogId")
 
-                if(req.body.data.comSentence){
-                    foundObject.comSentence = req.body.data.comSentence
+        })
+       
+    } catch{
 
-                }
-                if(req.body.data.comImage){
-                    foundObject.comImage = req.body.data.comImage
+        if (updatedBlog == null) {
+            console.log("Hata var!")
+            res.redirect('/blog/blogList')
+          } else {
+            res.render('edit/:blogId', {
+              updatedBlog: updatedBlog,
+              errorMessage: 'Error updating updatedBlog'
+            })
 
-                }
+    }
+}
 
-                if(req.body.data.blog){
-                    foundObject.blog = req.body.data.blog
-
-                }
-
-                foundObject.save(function(err, updatedObject){
-                    if(err){
-                        console.log(err);
-                        res.status(500).send();
-                    }else {
-                        res.send(updatedObject)
-                    }
-
-                })
-            }
-
-        }
-
-    })
-
-   
-
-    })
-        
-      
-   
+  })
 
   //signin and signup
 

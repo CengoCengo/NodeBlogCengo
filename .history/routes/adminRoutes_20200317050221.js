@@ -85,7 +85,7 @@ router.delete('/blog/:blogId',  isLoggedIn, async (req,res) =>{
 })
 
 //edit
-router.get('/edit/:blogId', (req, res) => {
+router.get('/blog/:blogId', (req, res) => {
     Blog.findById(req.params.blogId).then((foundBlogs)=>{
 
     res.render("./blog/editBlog.ejs", {foundBlogs:foundBlogs});
@@ -99,8 +99,11 @@ router.get('/edit/:blogId', (req, res) => {
   })
   
 router.post('/edit/:blogId', (req, res) => {
+   
+    var id = req.params.blogId
+    console.log(id);
 
-    Blog.findByIdAndUpdate((req.params.blogId), function(err,foundObject){
+    Blog.findOne({_id:id}, function(err,foundObject){
         if(err){
             console.log(err);
             res.status(500).send();

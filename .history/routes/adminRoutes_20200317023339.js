@@ -98,55 +98,20 @@ router.get('/edit/:blogId', (req, res) => {
 })
   })
   
-router.post('/edit/:blogId', (req, res) => {
+router.put('/edit/:blogId', (req, res) => {
 
-    Blog.findByIdAndUpdate((req.params.blogId), function(err,foundObject){
-        if(err){
-            console.log(err);
-            res.status(500).send();
-        }else{
-            if(!foundObject){
-                res.status(404).send();
-            }else{
-                if(req.body.data.title){
-                    foundObject.title = req.body.data.blogTitle
-                }
+    console.log(req.body.data);
+    const title = req.body.data.blogTitle;
+    const comSentence = req.body.data.comSentence;
+    const comImage = req.body.data.comImage;
+    const blog = req.body.data.blog;
 
-                if(req.body.data.comSentence){
-                    foundObject.comSentence = req.body.data.comSentence
+    const updatedBlog = {title:title, comSentence:comSentence, comImage:comImage,blog:blog};
 
-                }
-                if(req.body.data.comImage){
-                    foundObject.comImage = req.body.data.comImage
 
-                }
-
-                if(req.body.data.blog){
-                    foundObject.blog = req.body.data.blog
-
-                }
-
-                foundObject.save(function(err, updatedObject){
-                    if(err){
-                        console.log(err);
-                        res.status(500).send();
-                    }else {
-                        res.send(updatedObject)
-                    }
-
-                })
-            }
-
-        }
-
-    })
-
+    Blog.update(req.params.blogId).then((updatedBlog))
    
-
-    })
-        
-      
-   
+  })
 
   //signin and signup
 

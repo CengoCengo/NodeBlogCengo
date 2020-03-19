@@ -1,6 +1,7 @@
 const mongoose = require("mongoose");
 
 const blogSchema = new mongoose.Schema({
+   
     title: {type: String, required: 'Cannot be empty'},
     comSentence: {type: String, required: 'Cannot be empty'},
     comImage: {type: String, required: 'Cannot be empty'},

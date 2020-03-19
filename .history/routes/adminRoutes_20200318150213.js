@@ -67,7 +67,6 @@ router.get('/blog/:blogId',(req,res)=>{
 //delete
 
 router.delete('/blog/:blogId',  isLoggedIn, async (req,res) =>{
-    
     let deletedBlog
     try {
         deletedBlog = await Blog.findById(req.params.blogId)
@@ -86,37 +85,38 @@ router.delete('/blog/:blogId',  isLoggedIn, async (req,res) =>{
 })
 
 //edit
-router.get('/edit/:blogId', isLoggedIn, (req, res) => {
+router.get('/edit/:blogId', (req, res) => {
     Blog.findById(req.params.blogId).then((foundBlogs)=>{
 
-        res.render("./blog/editBlog.ejs", {foundBlogs:foundBlogs});
+    res.render("./blog/editBlog.ejs", {foundBlogs:foundBlogs});
 
-    })
-    .catch((err)=>{
-        console.log("Errorrrrrr");
-        console.log(err);
-        res.send(err);
-    })
 })
+.catch((err)=>{
+    console.log("Errorrrrrr");
+    console.log(err);
+    res.send(err);
+})
+  })
   
-  
-router.put("/edit/:blogId", isLoggedIn, function(req,res){
+router.post('/edit/:blogId', (req, res,next) => {
 
-    Blog.findByIdAndUpdate(req.params.blogId, req.body.editor, function(err, deneme){
+    var id = req.body.blogId;
 
-        if(err){
+  UserData.findById(id, function(err, doc) {
+    if (err) {
+      console.error('error, no entry found');
+    }
+    doc.title = req.body.title;
+    doc.content = req.body.content;
+    doc.author = req.body.author;
+    doc.save();
+  })
+  res.redirect('/');
 
-            console.log(err);
-            res.redirect
-
-
-        } else {
-            res.redirect("/blog/blogList")
-        }
+   
 
     })
-
-}) 
+        
       
    
 
@@ -138,7 +138,7 @@ router.post("/signin", (req,res)=>{
             console.log(err);
         } else {
             passport.authenticate("local")(req,res, function(){
-                res.redirect("/blog/blogList")
+                res.redirect("/admin")
             });
         }
 
@@ -174,9 +174,6 @@ function isLoggedIn(req, res, next){
     }
     res.redirect("/signin");
 }
-
-
-
 
 
 module.exports=router;

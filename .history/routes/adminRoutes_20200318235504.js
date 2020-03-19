@@ -67,7 +67,6 @@ router.get('/blog/:blogId',(req,res)=>{
 //delete
 
 router.delete('/blog/:blogId',  isLoggedIn, async (req,res) =>{
-    
     let deletedBlog
     try {
         deletedBlog = await Blog.findById(req.params.blogId)
@@ -86,37 +85,49 @@ router.delete('/blog/:blogId',  isLoggedIn, async (req,res) =>{
 })
 
 //edit
-router.get('/edit/:blogId', isLoggedIn, (req, res) => {
-    Blog.findById(req.params.blogId).then((foundBlogs)=>{
-
-        res.render("./blog/editBlog.ejs", {foundBlogs:foundBlogs});
-
-    })
-    .catch((err)=>{
-        console.log("Errorrrrrr");
-        console.log(err);
-        res.send(err);
-    })
+router.get('/edit/:blogId', async (req, res) => {
+    const foundBlogs = await Blog.findById(req.params.blogId)
+    res.render('./blog/editBlog.ejs', { foundBlogs: foundBlogs }) 
 })
   
   
-router.put("/edit/:blogId", isLoggedIn, function(req,res){
+router.put('/edit/:blogId', async (req, res) => {
+    
+    req.foundBlogs = await Blog.findById(req.params.blogId)
 
-    Blog.findByIdAndUpdate(req.params.blogId, req.body.editor, function(err, deneme){
+    let foundBlogs = req.foundBlogs
+    foundBlogs.title = req.body.blogTitle
+    foundBlogs.comImage = req.body.comImage
+    foundBlogs.comSentence = req.body.comSentence
+    foundBlogs.blog = req.body.blog
+    try {
+      foundBlogs = await Blog.save()
+      res.redirect(`/edit/${foundBlogs.blogId}`)
+    } catch (e) {
+        if (foundBlogs == null) {
+            res.redirect('/blog/blogList')
+          } else {
+            res.render('authors/edit', {
+              author: author,
+              errorMessage: 'Error updating Author'
+            })
+    }
 
-        if(err){
-
-            console.log(err);
-            res.redirect
-
-
+    try{
+        foundBlogs = await Blog.save()
+        res.redirect(`/edit/${foundBlogs.blogId}`)
+    }
+    catch (e) {
+        if(foundBlogs == null) {
+            res.redirect('/admin')
         } else {
-            res.redirect("/blog/blogList")
+            res.redirect('/edit/:blogId')
         }
-
-    })
-
-}) 
+        
+      }
+    
+  })
+        
       
    
 
@@ -138,7 +149,7 @@ router.post("/signin", (req,res)=>{
             console.log(err);
         } else {
             passport.authenticate("local")(req,res, function(){
-                res.redirect("/blog/blogList")
+                res.redirect("/admin")
             });
         }
 

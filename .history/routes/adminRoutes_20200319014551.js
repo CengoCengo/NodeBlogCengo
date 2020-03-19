@@ -67,7 +67,6 @@ router.get('/blog/:blogId',(req,res)=>{
 //delete
 
 router.delete('/blog/:blogId',  isLoggedIn, async (req,res) =>{
-    
     let deletedBlog
     try {
         deletedBlog = await Blog.findById(req.params.blogId)
@@ -86,7 +85,7 @@ router.delete('/blog/:blogId',  isLoggedIn, async (req,res) =>{
 })
 
 //edit
-router.get('/edit/:blogId', isLoggedIn, (req, res) => {
+router.get('/edit/:blogId', (req, res) => {
     Blog.findById(req.params.blogId).then((foundBlogs)=>{
 
         res.render("./blog/editBlog.ejs", {foundBlogs:foundBlogs});
@@ -100,23 +99,31 @@ router.get('/edit/:blogId', isLoggedIn, (req, res) => {
 })
   
   
-router.put("/edit/:blogId", isLoggedIn, function(req,res){
+router.put('/edit/:blogId', (req, res) => {
 
-    Blog.findByIdAndUpdate(req.params.blogId, req.body.editor, function(err, deneme){
+    
+    
+    Blog.findByIdAndUpdate({_id:req.params.blogId}, req.body, {new:true}, ).then((newBalog)=> {
 
-        if(err){
-
-            console.log(err);
-            res.redirect
-
-
-        } else {
-            res.redirect("/blog/blogList")
-        }
-
+        console.log(req.body);
+        const title = req.body.blogTitle;
+        const comSentence = req.body.comSentence;
+        const comImage = req.body.comImage;
+        const blog = req.body.blog;
+    
+        const newBlog = {title:title, comSentence:comSentence, comImage:comImage,blog:blog};
+        
+        res.status(201).json(newBlog);
+        res.redirect
     })
-
-}) 
+    .catch((err)=> {
+        console.log("HATAAAAAA");
+        console.log(err)
+        res.send(err)
+    })
+    
+  })
+        
       
    
 
@@ -138,7 +145,7 @@ router.post("/signin", (req,res)=>{
             console.log(err);
         } else {
             passport.authenticate("local")(req,res, function(){
-                res.redirect("/blog/blogList")
+                res.redirect("/admin")
             });
         }
 

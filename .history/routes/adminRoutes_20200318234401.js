@@ -67,7 +67,6 @@ router.get('/blog/:blogId',(req,res)=>{
 //delete
 
 router.delete('/blog/:blogId',  isLoggedIn, async (req,res) =>{
-    
     let deletedBlog
     try {
         deletedBlog = await Blog.findById(req.params.blogId)
@@ -86,37 +85,37 @@ router.delete('/blog/:blogId',  isLoggedIn, async (req,res) =>{
 })
 
 //edit
-router.get('/edit/:blogId', isLoggedIn, (req, res) => {
-    Blog.findById(req.params.blogId).then((foundBlogs)=>{
-
-        res.render("./blog/editBlog.ejs", {foundBlogs:foundBlogs});
-
-    })
-    .catch((err)=>{
-        console.log("Errorrrrrr");
-        console.log(err);
-        res.send(err);
-    })
+router.get('/edit/:blogId', async (req, res) => {
+    const foundBlogs = await Blog.findById(req.params.blogId)
+    res.render('./blog/editBlog.ejs', { foundBlogs: foundBlogs }) 
 })
   
   
-router.put("/edit/:blogId", isLoggedIn, function(req,res){
-
-    Blog.findByIdAndUpdate(req.params.blogId, req.body.editor, function(err, deneme){
-
-        if(err){
-
-            console.log(err);
-            res.redirect
-
-
+router.put('/edit/:blogId', async (req, res,next) => {
+    
+    req.foundBlogs = await Blog.findById(req.params.blogId)
+    let foundBlogs = req.foundBlogs
+   
+    if (id.match(foundBlogs._id = req.params.blogId)) {
+       
+      }
+    
+   
+    try{
+        foundBlogs = await Blog.save()
+        res.redirect(`/edit/${foundBlogs.blogId}`)
+    }
+    catch (e) {
+        if(foundBlogs == null) {
+            res.redirect('/admin')
         } else {
-            res.redirect("/blog/blogList")
+            res.redirect('/edit/:blogId')
         }
-
-    })
-
-}) 
+        
+      }
+    
+  })
+        
       
    
 
@@ -138,7 +137,7 @@ router.post("/signin", (req,res)=>{
             console.log(err);
         } else {
             passport.authenticate("local")(req,res, function(){
-                res.redirect("/blog/blogList")
+                res.redirect("/admin")
             });
         }
 
@@ -175,6 +174,21 @@ function isLoggedIn(req, res, next){
     res.redirect("/signin");
 }
 
+function saveArticleAndRedirect() {
+    return async (req, res) => {
+      let foundBlogs = req.foundBlogs
+      foundBlogs.title = req.body.blogTitle
+      foundBlogs.comImage = req.body.comImage
+      foundBlogs.comSentence = req.body.comSentence
+      foundBlogs.blog = req.body.blog
+      try {
+        foundBlogs = await Blog.save()
+        res.redirect(`/edit/${foundBlogs.blogId}`)
+      } catch (e) {
+        res.render(`/$edit/${foundBlogs.blogId}`, { foundBlogs: foundBlogs })
+      }
+    }
+  }
 
 
 

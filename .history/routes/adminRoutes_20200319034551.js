@@ -67,12 +67,23 @@ router.get('/blog/:blogId',(req,res)=>{
 //delete
 
 router.delete('/blog/:blogId',  isLoggedIn, async (req,res) =>{
-    
     let deletedBlog
     try {
         deletedBlog = await Blog.findById(req.params.blogId)
-        await deletedBlog.remove()
-        res.redirect("/blog/blogList")
+
+        var userPreference;
+
+        if (confirm("Silmek istediğinize emin misiniz?") == true) {
+            userPreference = "Data saved successfully!";
+            await deletedBlog.remove()
+            res.redirect("/blog/blogList")
+        } else {
+            userPreference = "Save Cancelled!";
+            stop();
+
+        }
+
+       
     } catch {
 
         if(deletedBlog == null) {
@@ -138,7 +149,7 @@ router.post("/signin", (req,res)=>{
             console.log(err);
         } else {
             passport.authenticate("local")(req,res, function(){
-                res.redirect("/blog/blogList")
+                res.redirect("/admin")
             });
         }
 

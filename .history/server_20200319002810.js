@@ -8,7 +8,7 @@ const Blog = require('./models/blogModel');
 const bodyParser = require("body-parser");
 const methodOverride = require('method-override');
 const app = express();
-const path = require('path')
+const path = require('')
 
 
 //AppRoutes
@@ -20,7 +20,7 @@ const adminRoutes = require("./routes/adminRoutes");
 //AppConfig
 const mongoose = require('mongoose');
 
-mongoose.connect("mongodb://127.0.0.1:27017/CengoDB", {useNewUrlParser:true, useUnifiedTopology: true, useMongoClient: true,  useFindAndModify: true });
+mongoose.connect("mongodb://127.0.0.1:27017/CengoDB", {useNewUrlParser:true, useUnifiedTopology: true});
 app.use(express.static("public"));
 app.use(bodyParser.urlencoded({extended:true}));
 app.use(methodOverride('_method'))

@@ -67,7 +67,6 @@ router.get('/blog/:blogId',(req,res)=>{
 //delete
 
 router.delete('/blog/:blogId',  isLoggedIn, async (req,res) =>{
-    
     let deletedBlog
     try {
         deletedBlog = await Blog.findById(req.params.blogId)
@@ -86,37 +85,45 @@ router.delete('/blog/:blogId',  isLoggedIn, async (req,res) =>{
 })
 
 //edit
-router.get('/edit/:blogId', isLoggedIn, (req, res) => {
+router.get('/edit/:blogId', (req, res) => {
     Blog.findById(req.params.blogId).then((foundBlogs)=>{
 
-        res.render("./blog/editBlog.ejs", {foundBlogs:foundBlogs});
+    res.render("./blog/editBlog.ejs", {foundBlogs:foundBlogs});
 
+})
+.catch((err)=>{
+    console.log("Errorrrrrr");
+    console.log(err);
+    res.send(err);
+})
+  })
+  
+router.post('/edit/:blogId', (req, res) => {
+
+    console.log(req.body.data);
+    const _id = req.body.data.blogId
+    const title = req.body.data.blogTitle;
+    const comSentence = req.body.data.comSentence;
+    const comImage = req.body.data.comImage;
+    const blog = req.body.data.blog;
+
+    const newBlog = {title:title, comSentence:comSentence, comImage:comImage,blog:blog, _id:_id};
+
+    Blog.findById(newBlog._id)
+        console.log(newBlog);
+        res.status(201).json(newBlog);
+        res.redirect("edit/:blogId")
     })
     .catch((err)=>{
         console.log("Errorrrrrr");
         console.log(err);
         res.send(err);
-    })
-})
-  
-  
-router.put("/edit/:blogId", isLoggedIn, function(req,res){
+    });
 
-    Blog.findByIdAndUpdate(req.params.blogId, req.body.editor, function(err, deneme){
-
-        if(err){
-
-            console.log(err);
-            res.redirect
-
-
-        } else {
-            res.redirect("/blog/blogList")
-        }
+   
 
     })
-
-}) 
+        
       
    
 
@@ -138,7 +145,7 @@ router.post("/signin", (req,res)=>{
             console.log(err);
         } else {
             passport.authenticate("local")(req,res, function(){
-                res.redirect("/blog/blogList")
+                res.redirect("/admin")
             });
         }
 
@@ -174,9 +181,6 @@ function isLoggedIn(req, res, next){
     }
     res.redirect("/signin");
 }
-
-
-
 
 
 module.exports=router;

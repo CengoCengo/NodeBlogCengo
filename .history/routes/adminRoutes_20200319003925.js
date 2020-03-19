@@ -67,7 +67,6 @@ router.get('/blog/:blogId',(req,res)=>{
 //delete
 
 router.delete('/blog/:blogId',  isLoggedIn, async (req,res) =>{
-    
     let deletedBlog
     try {
         deletedBlog = await Blog.findById(req.params.blogId)
@@ -86,10 +85,10 @@ router.delete('/blog/:blogId',  isLoggedIn, async (req,res) =>{
 })
 
 //edit
-router.get('/edit/:blogId', isLoggedIn, (req, res) => {
+router.get('/edit/:blogId', (req, res) => {
     Blog.findById(req.params.blogId).then((foundBlogs)=>{
 
-        res.render("./blog/editBlog.ejs", {foundBlogs:foundBlogs});
+        res.render("./blog/singleBlog.ejs", {foundBlogs:foundBlogs});
 
     })
     .catch((err)=>{
@@ -100,23 +99,27 @@ router.get('/edit/:blogId', isLoggedIn, (req, res) => {
 })
   
   
-router.put("/edit/:blogId", isLoggedIn, function(req,res){
+router.put('/edit/:blogId', async (req, res,next) => {
+    
+    req.foundBlogs = await Blog.findById(req.params.blogId)
+    let foundBlogs = req.foundBlogs
+    
 
-    Blog.findByIdAndUpdate(req.params.blogId, req.body.editor, function(err, deneme){
-
-        if(err){
-
-            console.log(err);
-            res.redirect
-
-
+    try{
+        foundBlogs = await Blog.save()
+        res.redirect(`/edit/${foundBlogs.blogId}`)
+    }
+    catch (e) {
+        if(foundBlogs == null) {
+            res.redirect('/admin')
         } else {
-            res.redirect("/blog/blogList")
+            res.redirect('/edit/:blogId')
         }
-
-    })
-
-}) 
+        
+      }
+    
+  })
+        
       
    
 
@@ -138,7 +141,7 @@ router.post("/signin", (req,res)=>{
             console.log(err);
         } else {
             passport.authenticate("local")(req,res, function(){
-                res.redirect("/blog/blogList")
+                res.redirect("/admin")
             });
         }
 

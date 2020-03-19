@@ -68,6 +68,8 @@ router.get('/blog/:blogId',(req,res)=>{
 
 router.delete('/blog/:blogId',  isLoggedIn, async (req,res) =>{
     
+    alert("Emin misiniz?")
+    
     let deletedBlog
     try {
         deletedBlog = await Blog.findById(req.params.blogId)
